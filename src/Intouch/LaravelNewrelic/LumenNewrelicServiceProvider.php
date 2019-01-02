@@ -23,7 +23,7 @@ class LumenNewrelicServiceProvider extends ServiceProvider
 			}
 		);
 
-		app('queue')->before(function (JobProcessed $event) {
+		app('queue')->before(function ($event) {
 			app('newrelic')->backgroundJob( true );
 			app('newrelic')->startTransaction( ini_get('newrelic.appname') );
 			if (app('config')->get( 'newrelic.auto_name_jobs' )) {
@@ -31,7 +31,7 @@ class LumenNewrelicServiceProvider extends ServiceProvider
 			}
 		});
 
-		app('queue')->after(function (JobProcessed $event) {
+		app('queue')->after(function ($event) {
 			app('newrelic')->endTransaction();
 		});
 	}
@@ -41,7 +41,7 @@ class LumenNewrelicServiceProvider extends ServiceProvider
 	*
 	* @return string
 	*/
-	public function getJobName(JobProcessed $event)
+	public function getJobName($event)
 	{
 		return str_replace(
 			[
